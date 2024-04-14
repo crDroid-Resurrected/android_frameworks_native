@@ -59,8 +59,13 @@ public:
         Vector<Sensor> v;
         uint32_t n = reply.readUint32();
         v.setCapacity(n);
-        while (n--) {
-            reply.read(s);
+        while (n) {
+            n--;
+            if(reply.read(s) != OK) {
+                ALOGE("Failed to read reply from getSensorList");
+                v.clear();
+                break;
+            }
             v.add(s);
         }
         return v;
@@ -76,8 +81,13 @@ public:
         Vector<Sensor> v;
         uint32_t n = reply.readUint32();
         v.setCapacity(n);
-        while (n--) {
-            reply.read(s);
+        while (n) {
+            n--;
+            if(reply.read(s) != OK) {
+                ALOGE("Failed to read reply from getDynamicSensorList");
+                v.clear();
+                break;
+            }
             v.add(s);
         }
         return v;
